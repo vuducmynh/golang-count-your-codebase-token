@@ -13,7 +13,7 @@ CodeDocs is a local-first desktop app that turns a source tree into compact AI-r
 
 ## Install on Windows
 
-Download the matching binary from the [latest release](https://github.com/gdevgproject/create-docs-golang/releases/latest):
+Download the matching binary from the [latest release](https://github.com/vuducmynh/golang-count-your-codebase-token/releases/latest):
 
 - `codedocs_windows_amd64.exe` for most Windows PCs.
 - `codedocs_windows_arm64.exe` for native Windows on ARM.

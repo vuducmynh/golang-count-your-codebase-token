@@ -47,8 +47,8 @@ All notable changes are documented here. CodeDocs follows semantic versioning.
 - Binary integrity, executable format, and release ownership validation before applying an update.
 - Shutdown races, duplicate saved paths, corrupt history handling, large-preview memory pressure, and titlebar icon ID mismatch.
 
-[Unreleased]: https://github.com/gdevgproject/create-docs-golang/compare/v1.8.3...HEAD
-[1.8.3]: https://github.com/gdevgproject/create-docs-golang/compare/v1.8.2...v1.8.3
-[1.8.2]: https://github.com/gdevgproject/create-docs-golang/compare/v1.8.1...v1.8.2
-[1.8.1]: https://github.com/gdevgproject/create-docs-golang/compare/v1.8.0...v1.8.1
-[1.8.0]: https://github.com/gdevgproject/create-docs-golang/compare/v1.7.8...v1.8.0
+[Unreleased]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.3...HEAD
+[1.8.3]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.2...v1.8.3
+[1.8.2]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.1...v1.8.2
+[1.8.1]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.0...v1.8.1
+[1.8.0]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.7.8...v1.8.0
