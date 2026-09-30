@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	// Version can be set at build time via -ldflags "-X codedocs/internal/config.Version=v1.8.3"
-	Version    = "v1.8.3"
+	// Version can be set at build time via -ldflags "-X codedocs/internal/config.Version=v1.8.4"
+	Version    = "v1.8.4"
 	GitHubRepo = "vuducmynh/golang-count-your-codebase-token"
 )
 
@@ -48,6 +48,14 @@ var ExcludedDirs = []string{
 	"dist",
 	"build",
 	"out",
+
+	// Electron / Desktop App Packaging & Bundlers
+	"dist_electron",
+	"release",
+	"releases",
+	"release-builds",
+	".webpack",
+	".vite",
 
 	// Java / Kotlin / Spring Boot / Gradle / Maven / Minecraft Mods
 	"target",
@@ -107,6 +115,7 @@ var ExcludedDirs = []string{
 	// Rust / Cargo / Ruby
 	"vendor/bundle",
 	".bundle",
+	".cargo-ok",
 
 	// DevOps / Infrastructure
 	".terraform",
@@ -150,12 +159,20 @@ var ExcludedFiles = []string{
 	"mix-manifest.json",
 	"manifest.json",
 	"vcpkg.json",
+	"npm-debug.log",
+	"yarn-debug.log",
+	"yarn-error.log",
+	"pnpm-debug.log",
 }
 
 // BinaryExtensions contains all binary, media, asset, and compiled file extensions
 var BinaryExtensions = []string{
-	// Compiled Executables & Libraries
+	// Compiled Executables & Libraries (Rust, C/C++, Node Native Addons, JVM, .NET)
 	"exe", "dll", "so", "dylib", "class", "jar", "war", "ear", "phar", "bin", "obj", "pyc", "pyo", "pyd", "o", "a", "lib", "sys", "drv", "nupkg",
+	"node", "pdb", "ilk", "rlib", "rmeta", "exp",
+
+	// Desktop Packaging & Archives (Electron, Tauri, Installers)
+	"asar", "msi", "msix", "appx", "dmg", "pkg", "deb", "rpm", "appimage", "snap", "blockmap",
 
 	// Game Engine & Client Assets (Unity, Unreal Engine, Steam Games, GTA V, Genshin Impact, Minecraft)
 	"pak", "vpk", "bsa", "ba2", "uasset", "umap", "asset", "unitypackage", "nbt", "mca", "gcm", "iso", "rom", "sav", "fbx", "obj", "blend", "gltf", "glb", "3ds", "dae", "max",

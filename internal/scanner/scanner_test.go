@@ -182,6 +182,12 @@ func TestScanner_IsBinary(t *testing.T) {
 		{"zip", true},
 		{"jar", true},
 		{"pyc", true},
+		{"node", true},
+		{"asar", true},
+		{"pdb", true},
+		{"rlib", true},
+		{"rs", false},
+		{"ts", false},
 	}
 
 	for _, tt := range tests {

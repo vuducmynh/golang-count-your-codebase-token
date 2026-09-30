@@ -2,7 +2,7 @@
 param(
     [Parameter()]
     [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$')]
-    [string]$Version = 'v1.8.3',
+    [string]$Version = 'v1.8.4',
 
     [Parameter()]
     [ValidateSet('amd64', 'arm64')]

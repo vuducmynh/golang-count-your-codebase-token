@@ -4,6 +4,13 @@ All notable changes are documented here. CodeDocs follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.8.4] - 2026-10-01
+
+### Added
+
+- Ignore rules and binary extension filters for Rust core and Electron desktop applications (`.node`, `.pdb`, `.ilk`, `.rlib`, `.rmeta`, `.exp`, `.asar`, `.msi`, `.msix`, `.appx`, `.dmg`, `.pkg`, `.deb`, `.rpm`, `.appimage`, `.snap`, `.blockmap`).
+- Excluded Electron desktop build directories (`dist_electron`, `release`, `releases`, `release-builds`, `.webpack`, `.vite`) and package manager debug logs (`npm-debug.log`, `yarn-debug.log`, `yarn-error.log`, `pnpm-debug.log`).
+
 ## [1.8.3] - 2026-08-26
 
 ### Changed
@@ -47,7 +54,8 @@ All notable changes are documented here. CodeDocs follows semantic versioning.
 - Binary integrity, executable format, and release ownership validation before applying an update.
 - Shutdown races, duplicate saved paths, corrupt history handling, large-preview memory pressure, and titlebar icon ID mismatch.
 
-[Unreleased]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.3...HEAD
+[Unreleased]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.4...HEAD
+[1.8.4]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.3...v1.8.4
 [1.8.3]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.2...v1.8.3
 [1.8.2]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.1...v1.8.2
 [1.8.1]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.0...v1.8.1
