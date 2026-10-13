@@ -4,6 +4,13 @@ All notable changes are documented here. CodeDocs follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.8.5] - 2026-10-13
+
+### Added
+
+- Multi-segment path suffix matching in scanner so nested paths like `heygoru/references` are excluded regardless of whether the scan starts at the project root or a parent directory.
+- Expanded Rust and Electron desktop build exclusions: unpacked desktop output directories (`win-unpacked`, `mac-unpacked`, `linux-unpacked`, `dist-electron`, `dist_native`, `app-builds`), native C++/Cargo build caches (`cmake-build-*`, `vcpkg_installed`, `.cargo/registry`, `.cargo/git`), electron-builder metadata (`latest*.yml`, `builder-effective-config.yaml`), and binary extensions (`.wasm`, `.iobj`, `.ipdb`, `.pch`, `.gch`, `.idb`, `.tlog`, `.def`, `.imp`, `.res`, `.syso`, `.tlb`, `.profraw`, `.profdata`, `.pgd`, `.pgc`, `.dat`, `.dmp`, `.mdmp`, `.hdmp`, `.crx`, `.nex`, `.db`, `.sqlite`, `.sqlite3`, `.ldb`, `.pfx`, `.p12`, `.cer`, `.der`).
+
 ## [1.8.4] - 2026-10-01
 
 ### Added
@@ -54,7 +61,8 @@ All notable changes are documented here. CodeDocs follows semantic versioning.
 - Binary integrity, executable format, and release ownership validation before applying an update.
 - Shutdown races, duplicate saved paths, corrupt history handling, large-preview memory pressure, and titlebar icon ID mismatch.
 
-[Unreleased]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.4...HEAD
+[Unreleased]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.5...HEAD
+[1.8.5]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.4...v1.8.5
 [1.8.4]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.3...v1.8.4
 [1.8.3]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.2...v1.8.3
 [1.8.2]: https://github.com/vuducmynh/golang-count-your-codebase-token/compare/v1.8.1...v1.8.2

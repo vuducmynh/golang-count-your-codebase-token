@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	// Version can be set at build time via -ldflags "-X codedocs/internal/config.Version=v1.8.4"
-	Version    = "v1.8.4"
+	// Version can be set at build time via -ldflags "-X codedocs/internal/config.Version=v1.8.5"
+	Version    = "v1.8.5"
 	GitHubRepo = "vuducmynh/golang-count-your-codebase-token"
 )
 
@@ -51,11 +51,25 @@ var ExcludedDirs = []string{
 
 	// Electron / Desktop App Packaging & Bundlers
 	"dist_electron",
+	"dist-electron",
+	"dist_native",
 	"release",
 	"releases",
 	"release-builds",
+	"app-builds",
+	"win-unpacked",
+	"win-arm64-unpacked",
+	"win-ia32-unpacked",
+	"mac-unpacked",
+	"linux-unpacked",
 	".webpack",
 	".vite",
+	".vite-inspect",
+	".parcel-cache",
+	".esbuild",
+	".electron",
+	".electron-gyp",
+	".node-gyp",
 
 	// Java / Kotlin / Spring Boot / Gradle / Maven / Minecraft Mods
 	"target",
@@ -112,10 +126,18 @@ var ExcludedDirs = []string{
 	"bootstrap/cache",
 	".phpunit.cache",
 
-	// Rust / Cargo / Ruby
+	// Rust / Cargo / Native C++ Toolchains / Ruby
 	"vendor/bundle",
 	".bundle",
 	".cargo-ok",
+	".cargo/registry",
+	".cargo/git",
+	"cmake-build-debug",
+	"cmake-build-release",
+	"vcpkg_installed",
+
+	// Project-specific & Reference Directories
+	"heygoru/references",
 
 	// DevOps / Infrastructure
 	".terraform",
@@ -163,16 +185,27 @@ var ExcludedFiles = []string{
 	"yarn-debug.log",
 	"yarn-error.log",
 	"pnpm-debug.log",
+	"latest.yml",
+	"latest-mac.yml",
+	"latest-linux.yml",
+	"builder-debug.yml",
+	"builder-effective-config.yaml",
 }
 
 // BinaryExtensions contains all binary, media, asset, and compiled file extensions
 var BinaryExtensions = []string{
-	// Compiled Executables & Libraries (Rust, C/C++, Node Native Addons, JVM, .NET)
+	// Compiled Executables, Libraries & Native Build Artifacts (Rust, C/C++, Node Native Addons, WASM, JVM, .NET)
 	"exe", "dll", "so", "dylib", "class", "jar", "war", "ear", "phar", "bin", "obj", "pyc", "pyo", "pyd", "o", "a", "lib", "sys", "drv", "nupkg",
-	"node", "pdb", "ilk", "rlib", "rmeta", "exp",
+	"node", "pdb", "ilk", "rlib", "rmeta", "exp", "wasm", "iobj", "ipdb", "pch", "gch", "idb", "tlog", "def", "imp", "res", "syso", "tlb",
+	"profraw", "profdata", "pgd", "pgc",
 
-	// Desktop Packaging & Archives (Electron, Tauri, Installers)
-	"asar", "msi", "msix", "appx", "dmg", "pkg", "deb", "rpm", "appimage", "snap", "blockmap",
+	// Desktop Packaging, Installers, Runtime Tables & Crash Dumps (Electron, Tauri, Windows, macOS, Linux)
+	"asar", "msi", "msix", "msixbundle", "appx", "appxbundle", "appinstaller", "dmg", "pkg", "deb", "rpm", "appimage", "snap", "flatpak", "blockmap",
+	"dat", "dmp", "mdmp", "hdmp", "crx", "nex",
+
+	// Local Databases, Storage & Code Signing Certificates
+	"db", "sqlite", "sqlite3", "db-shm", "db-wal", "db-journal", "mdb", "ldb",
+	"pfx", "p12", "cer", "der", "p7b",
 
 	// Game Engine & Client Assets (Unity, Unreal Engine, Steam Games, GTA V, Genshin Impact, Minecraft)
 	"pak", "vpk", "bsa", "ba2", "uasset", "umap", "asset", "unitypackage", "nbt", "mca", "gcm", "iso", "rom", "sav", "fbx", "obj", "blend", "gltf", "glb", "3ds", "dae", "max",
@@ -191,7 +224,7 @@ var BinaryExtensions = []string{
 	"mp4", "mov", "avi", "webm", "mkv", "flv", "wmv", "m4v",
 
 	// Archives & Compressed Packages
-	"zip", "rar", "7z", "tar", "gz", "bz2", "xz", "tgz", "zst",
+	"zip", "rar", "7z", "tar", "gz", "bz2", "xz", "tgz", "zst", "br", "lz4", "lzma", "cab", "img",
 
 	// Fonts
 	"ttf", "otf", "woff", "woff2", "eot",

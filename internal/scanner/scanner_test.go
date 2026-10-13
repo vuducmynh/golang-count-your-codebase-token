@@ -186,6 +186,13 @@ func TestScanner_IsBinary(t *testing.T) {
 		{"asar", true},
 		{"pdb", true},
 		{"rlib", true},
+		{"wasm", true},
+		{"ipdb", true},
+		{"profraw", true},
+		{"dat", true},
+		{"dmp", true},
+		{"sqlite3", true},
+		{"pfx", true},
 		{"rs", false},
 		{"ts", false},
 	}
@@ -194,6 +201,48 @@ func TestScanner_IsBinary(t *testing.T) {
 		got := s.IsBinary(tt.ext)
 		if got != tt.expected {
 			t.Errorf("IsBinary(%q) = %v; want %v", tt.ext, got, tt.expected)
+		}
+	}
+}
+
+func TestScanner_HeygoruReferencesExclusion(t *testing.T) {
+	tempDir := t.TempDir()
+
+	// Case 1: Scanning directly inside ".../heygoru" root
+	heygoruRoot := filepath.Join(tempDir, "heygoru")
+	mustMkdirAll(t, filepath.Join(heygoruRoot, "src"))
+	mustMkdirAll(t, filepath.Join(heygoruRoot, "references", "nested"))
+	mustWriteFile(t, filepath.Join(heygoruRoot, "src", "main.rs"), "fn main() {}")
+	mustWriteFile(t, filepath.Join(heygoruRoot, "references", "ignored.md"), "skip me")
+	mustWriteFile(t, filepath.Join(heygoruRoot, "references", "nested", "deep.txt"), "skip me too")
+
+	// Case 2: Another project with a "references" folder that should NOT be ignored
+	otherRoot := filepath.Join(tempDir, "other_app")
+	mustMkdirAll(t, filepath.Join(otherRoot, "references"))
+	mustWriteFile(t, filepath.Join(otherRoot, "references", "keep.md"), "keep me")
+
+	s := NewScanner()
+
+	// Scan directly on heygoruRoot
+	directFiles, err := s.ScanProjectFiles(heygoruRoot)
+	if err != nil {
+		t.Fatalf("ScanProjectFiles(heygoruRoot) failed: %v", err)
+	}
+	if len(directFiles) != 1 || !strings.HasSuffix(directFiles[0], "heygoru/src/main.rs") {
+		t.Fatalf("expected only heygoru/src/main.rs when scanning heygoru root, got: %v", directFiles)
+	}
+
+	// Scan from parent workspace directory containing both heygoru and other_app
+	workspaceFiles, err := s.ScanProjectFiles(tempDir)
+	if err != nil {
+		t.Fatalf("ScanProjectFiles(tempDir) failed: %v", err)
+	}
+	if len(workspaceFiles) != 2 {
+		t.Fatalf("expected 2 files across workspace (heygoru/src/main.rs and other_app/references/keep.md), got: %v", workspaceFiles)
+	}
+	for _, f := range workspaceFiles {
+		if strings.Contains(f, "heygoru/references") {
+			t.Errorf("expected heygoru/references to be excluded, but found: %s", f)
 		}
 	}
 }

@@ -12,15 +12,24 @@ import (
 )
 
 type Scanner struct {
-	excludedDirs  map[string]struct{}
-	excludedFiles map[string]struct{}
-	binaryExts    map[string]struct{}
+	excludedDirs         map[string]struct{}
+	excludedPathSegments []string
+	excludedFiles        map[string]struct{}
+	binaryExts           map[string]struct{}
 }
 
 func NewScanner() *Scanner {
 	dirMap := make(map[string]struct{}, len(config.ExcludedDirs))
+	pathSegments := make([]string, 0, 12)
 	for _, dir := range config.ExcludedDirs {
-		dirMap[strings.ToLower(filepath.ToSlash(dir))] = struct{}{}
+		normalized := strings.Trim(strings.ToLower(filepath.ToSlash(dir)), "/")
+		if normalized == "" {
+			continue
+		}
+		dirMap[normalized] = struct{}{}
+		if strings.Contains(normalized, "/") {
+			pathSegments = append(pathSegments, "/"+normalized)
+		}
 	}
 
 	fileMap := make(map[string]struct{}, len(config.ExcludedFiles))
@@ -34,9 +43,10 @@ func NewScanner() *Scanner {
 	}
 
 	return &Scanner{
-		excludedDirs:  dirMap,
-		excludedFiles: fileMap,
-		binaryExts:    binaryMap,
+		excludedDirs:         dirMap,
+		excludedPathSegments: pathSegments,
+		excludedFiles:        fileMap,
+		binaryExts:           binaryMap,
 	}
 }
 
@@ -100,11 +110,13 @@ func (s *Scanner) ScanProjectFilesContext(ctx context.Context, rootPath string) 
 		}
 		relSlash := filepath.ToSlash(relPath)
 		relLower := strings.ToLower(relSlash)
+		fullSlash := filepath.ToSlash(path)
+		fullLower := strings.ToLower(fullSlash)
 		nameLower := strings.ToLower(entry.Name())
 		parentIgnore := ignoreByDir[filepath.Dir(path)]
 
 		if entry.IsDir() {
-			if s.isExcludedDirectory(nameLower, relLower) || parentIgnore.ignored(relSlash, true) {
+			if s.isExcludedDirectory(nameLower, relLower, fullLower) || parentIgnore.ignored(relSlash, true) {
 				return filepath.SkipDir
 			}
 			ignoreByDir[path] = loadIgnoreLayer(parentIgnore, cleanRoot, path)
@@ -114,11 +126,11 @@ func (s *Scanner) ScanProjectFilesContext(ctx context.Context, rootPath string) 
 		if _, excluded := s.excludedFiles[nameLower]; excluded {
 			return nil
 		}
-		if parentIgnore.ignored(relSlash, false) {
+		if s.hasExcludedPathSegment(fullLower) || parentIgnore.ignored(relSlash, false) {
 			return nil
 		}
 
-		files = append(files, filepath.ToSlash(path))
+		files = append(files, fullSlash)
 		return nil
 	})
 	if err != nil {
@@ -132,10 +144,21 @@ func (s *Scanner) ScanProjectFilesContext(ctx context.Context, rootPath string) 
 	return files, nil
 }
 
-func (s *Scanner) isExcludedDirectory(nameLower, relLower string) bool {
+func (s *Scanner) isExcludedDirectory(nameLower, relLower, fullLower string) bool {
 	if _, excluded := s.excludedDirs[nameLower]; excluded {
 		return true
 	}
-	_, excluded := s.excludedDirs[relLower]
-	return excluded
+	if _, excluded := s.excludedDirs[relLower]; excluded {
+		return true
+	}
+	return s.hasExcludedPathSegment(fullLower)
+}
+
+func (s *Scanner) hasExcludedPathSegment(fullLower string) bool {
+	for _, segment := range s.excludedPathSegments {
+		if strings.HasSuffix(fullLower, segment) || strings.Contains(fullLower, segment+"/") {
+			return true
+		}
+	}
+	return false
 }
